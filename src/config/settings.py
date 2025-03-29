@@ -1,24 +1,26 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    app_name: str = "AI-Powered-Chatbot"
-    host: str = "0.0.0.0"
-    port: int = 8000
+    app_name: str
+    host: str
+    port: int
 
-    # Database settings
+    # Database Config
     db_host: str
     db_port: int
     db_name: str
     db_user: str
     db_password: str
 
-    # Kafka settings
+    # Kafka Config
     kafka_broker: str
-    kafka_topic: str = "chat-messages"
+    kafka_topic: str
 
-    # Redis settings
+    # Redis Config
     redis_host: str
     redis_port: int
+    redis_db: int
+    redis_ttl: int
 
     class Config:
         env_file = ".env"
