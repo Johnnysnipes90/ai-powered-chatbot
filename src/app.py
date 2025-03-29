@@ -9,7 +9,11 @@ def read_root():
 
 @app.get("/health")
 def health_check():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy",
+        "database": settings.db_host,
+        "cache": settings.redis_host
+    }
 
 if __name__ == "__main__":
     import uvicorn
