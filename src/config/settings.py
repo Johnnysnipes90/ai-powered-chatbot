@@ -5,12 +5,12 @@ class Settings(BaseSettings):
     host: str
     port: int
 
-    # Database Config
-    db_host: str
-    db_port: int
-    db_name: str
-    db_user: str
-    db_password: str
+    # PostgreSQL Config
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
+    postgres_host: str
+    postgres_port: int
 
     # Kafka Config
     kafka_broker: str
@@ -24,5 +24,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
 
 settings = Settings()

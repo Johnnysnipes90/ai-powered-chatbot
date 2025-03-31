@@ -14,7 +14,7 @@ class RedisClient:
         )
 
     def set_cache(self, key: str, value: str, ttl=None):
-        ttl = ttl if ttl is not None else settings.redis_ttl
+        ttl = ttl or settings.redis_ttl
         self.client.setex(key, ttl, value)
         logging.info(f"Cached data for key: {key}")
 
