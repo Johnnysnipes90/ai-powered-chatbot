@@ -1,0 +1,48 @@
+import os
+from logging.config import fileConfig
+from sqlalchemy import create_engine, pool
+from alembic import context
+from src.database.db import Base  # Import your Base
+from src.database.models import ChatMessage  # Ensure models are registered
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env
+# DATABASE_URL = os.getenv("DATABASE_URL")  # Fetch URL from .env
+config = context.config
+
+# Logging configuration
+if config.config_file_name is not None:
+    fileConfig(config.config_file_name)
+
+# Load environment variables
+DATABASE_URL = f"postgresql://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@" \
+               f"{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
+
+config.set_main_option("sqlalchemy.url", DATABASE_URL)
+
+target_metadata = Base.metadata  # Make sure to link your models
+
+def run_migrations_offline() -> None:
+    """Run migrations in 'offline' mode."""
+    context.configure(
+        url=DATABASE_URL,
+        target_metadata=target_metadata,
+        literal_binds=True,
+        dialect_opts={"paramstyle": "named"},
+    )
+
+    with context.begin_transaction():
+        context.run_migrations()
+
+def run_migrations_online() -> None:
+    """Run migrations in 'online' mode."""
+    engine = create_engine(DATABASE_URL, poolclass=pool.NullPool)
+    with engine.connect() as connection:
+        context.configure(connection=connection, target_metadata=target_metadata)
+        with context.begin_transaction():
+            context.run_migrations()
+
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    run_migrations_online()

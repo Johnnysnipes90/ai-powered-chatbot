@@ -1,0 +1,18 @@
+# Ignore virtual environments
+venv/
+.venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+
+# Ignore databases
+*.db
+*.sqlite
+*.pgsql
+
+# Ignore Docker build files
+*.log
+*.pid
